@@ -34,6 +34,7 @@ import {PharmacistPatientProfile} from './components/pages/pharmacist/Pharmacist
 import {PharmacistPatientReceiptInfo} from './components/pages/pharmacist/PharmacistPatientReceiptInfo';
 import {Col, Container, Row} from "react-bootstrap";
 import {Header} from "./components/Header";
+import {Footer} from "./components/Footer";
 
 
 //the path of the route is camel_case (everything after the name of the enity)
@@ -89,6 +90,7 @@ const App = () => {
                 </Col>
 
             </Row>
+            <Footer/>
         </Container>
     );
 }
