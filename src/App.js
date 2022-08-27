@@ -48,7 +48,7 @@ const App = () => {
         <Container>
             <Header/>
             <Row>
-                <Col xs={{span: 9, offset: 3}}>
+                <Col xs={{span: 8, offset: 2}}>
                     <Router>
                     <Routes>
 
