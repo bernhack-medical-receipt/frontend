@@ -1,40 +1,88 @@
 import React, { useState } from 'react';
-
-import Toast from 'react-bootstrap/Toast';
-import Container from 'react-bootstrap/Container';
-import Button from 'react-bootstrap/Button';
-
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import './App.css';
+//Auth
+import { AuthPage } from './components/pages/auth/AuthPage';
+import { Login } from './components/pages/auth/Login';
+import { Registration } from './components/pages/auth/Registration';
+import { NoMatch } from './components/pages/auth/NoMatch';
+import { HomePage } from './components/pages/homepage/HomePage';
 
-const ExampleToast = ({ children }) => {
+//Doctor
+import { DoctorPage } from './components/pages/doctor/DoctorPage';
+import { DoctorMenu } from './components/pages/doctor/DoctorMenu';
+import { DoctorAddPatient } from './components/pages/doctor/DoctorAddPatient';
+import { DoctorFindPatient } from './components/pages/doctor/DoctorFindPatient';
+import { DoctorPatientProfile } from './components/pages/doctor/DoctorPatientProfile';
+import { DoctorAddPatientReceipt } from './components/pages/doctor/DoctorAddPatientReceipt';
+import { DoctorHelp } from './components/pages/doctor/DoctorHelp';
 
-  const [show, toggleShow] = useState(true);
+//Patient
+import { PatientPage } from './components/pages/patient/PatientPage';
+import {PatientHistory } from './components/pages/patient/PatientHistory';
+import {PatientMenu} from './components/pages/patient/PatientMenu'
+import {PatientReceiptInfo} from './components/pages/patient/PatientReceiptInfo'
+import {PatientReceiptReport} from './components/pages/patient/PatientReceiptReport'
+import {PatientReceipts} from './components/pages/patient/PatientReceipts'
 
-  return (
-    <>
-      {!show && <Button onClick={() => toggleShow(true)}>Show Toast</Button>}
-      <Toast show={show} onClose={() => toggleShow(false)}>
-        <Toast.Header>
-          <strong className="mr-auto">React-Bootstrap</strong>
-        </Toast.Header>
-        <Toast.Body>{children}</Toast.Body>
-      </Toast>
-    </>
-  );
-};
 
-const App = () => (
-  <Container className="p-3">
-    <Container className="p-5 mb-4 bg-light rounded-3">
-      <h1 className="header">Welcome To React-Bootstrap</h1>
-      <ExampleToast>
-        We now have Toasts
-        <span role="img" aria-label="tada">
-          🎉
-        </span>
-      </ExampleToast>
-    </Container>
-  </Container>
+//Pharmacist
+import { PharmacistPage } from './components/pages/pharmacist/PharmacistPage';
+import { PharmacistMenu } from './components/pages/pharmacist/PharmacistMenu';
+import { PharmacistHelp } from './components/pages/pharmacist/PharmacistHelp';
+import { PharmacistPatientProfile } from './components/pages/pharmacist/PharmacistPatientProfile';
+import { PharmacistPatientReceiptInfo } from './components/pages/pharmacist/PharmacistPatientReceiptInfo';
+
+
+//the path of the route is camel_case (everything after the name of the enity)
+//e.g. <Route path="menu_item" element={<EntityMenuItem />} />
+
+const App = () =>  {
+
+  const [success, setSuccess] = useState(false);
+
+return (
+  <Router>
+    <div>
+      <Routes>
+
+        <Route path="/" element={<HomePage /> }>
+          <Route path="doctor" element={<DoctorPage />}>
+            <Route path="menu" element={<DoctorMenu />} />
+            <Route path="add_patient" element={<DoctorAddPatient />} />
+            <Route path="find_patient" element={<DoctorFindPatient />} />
+            <Route path="patient_profile" element={<DoctorPatientProfile />} />
+            <Route path="add_patient_receipt" element={<DoctorAddPatientReceipt />} />
+            <Route path="help" element={<DoctorHelp />} />
+          </Route>
+
+          <Route path="patient" element={<PatientPage />}>
+            <Route path="menu" element={<PatientMenu />} />
+            <Route path="history" element={<PatientHistory />} />
+            <Route path="receipt_info" element={<PatientReceiptInfo />} />
+            <Route path="receipt_report" element={<PatientReceiptReport />} />
+            <Route path="receipts" element={<PatientReceipts />} />
+
+          </Route>
+          <Route path="pharmacist" element={<PharmacistPage />}>
+            <Route path="menu" element={<PharmacistMenu />} />
+            <Route path="help" element={<PharmacistHelp />} />
+            <Route path="patient_profile" element={<PharmacistPatientProfile />} />
+            <Route path="patient_receipt_info" element={<PharmacistPatientReceiptInfo />} />
+          </Route>
+        </Route>
+
+        <Route path="/auth" element={<AuthPage />}>
+          <Route path="login" element={<Login />} />
+          <Route path="registration" element={<Registration />} />
+        </Route>
+
+        <Route path="*" element={<NoMatch />} />
+      </Routes>
+    </div>
+    {/* <footer><Footer /></footer> */}
+  </Router>
 );
+}
 
 export default App;
