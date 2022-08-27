@@ -1,39 +1,33 @@
-import {Container, Row, Table} from "react-bootstrap";
+import { Container, ListGroup, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { useState } from "react";
 
 
 export const PatientReceipts = () => {
+
+    const [receipts, setReceipts] = useState([])
+
+    //TODO fetch receipts
+
     return (
         <>
+            <Link to={"/patient/menu"}><Button variant="primary" type="submit">Back</Button></Link>
             <Container>
-                <Row><h2>History</h2></Row>
-                <Row>
-                    <Table striped>
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Date issued</th>
-                            <th>Disease name</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td colSpan={2}>Larry the Bird</td>
-                        </tr>
-                        </tbody>
-                    </Table>
-                </Row>
+                <h3>Your medicaments</h3>
+                <img alt="..." />
+                <div>
+                    <ListGroup >
+                    <Link to={"/patient/receipt_info"}>
+                                <ListGroup.Item >HARDCORE EXAMPLE</ListGroup.Item>
+                            </Link>
+                        {receipts.map((receipt) => (
+                            <Link to={"/patient/receipt_info"}>
+                                <ListGroup.Item >Cras justo odio</ListGroup.Item>
+                            </Link>
+                        ))}
+                    </ListGroup>
+                </div>
             </Container>
-            </>
-            );
-            }
+        </>
+    );
+}
