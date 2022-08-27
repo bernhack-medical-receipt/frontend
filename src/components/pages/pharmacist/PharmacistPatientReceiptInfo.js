@@ -4,7 +4,7 @@ import {useState} from "react"
 export const PharmacistPatientReceiptInfo = () => {
     return (
         <>
-            <Link to={"/pharmacist/patient_profile"}><Button variant="primary" type="submit">Back</Button></Link>
+            <Link to={"/pharmacist/patient_profile"} className="back-btn"><Button variant="primary" type="submit">Back</Button></Link>
             <Container>
                 <h2>Name of the prescription</h2>
                 <Container>
@@ -40,9 +40,7 @@ export const PharmacistPatientReceiptInfo = () => {
                     <h3>
                        Side effects
                     </h3>
-                    <Button variant="danger" type="submit">
-                    Submit
-                </Button>
+                   
                     <div>
                         <ListGroup as="ul" numbered>
                             <ListGroup.Item as="li">Cras justo odio</ListGroup.Item>

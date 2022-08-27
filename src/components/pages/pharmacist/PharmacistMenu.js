@@ -5,10 +5,10 @@ export const PharmacistMenu = () => {
         <>
             <Container>
                 <div>
-                <Link to={"/pharmacist/patient_profile"}><Button variant="primary" type="submit">Back</Button></Link>
+                <Link to={"/pharmacist/patient_profile"}><Button variant="primary" type="submit">QR emulator</Button></Link>
                 </div>
                 <div>
-                <Link to={"/pharmacist/help"}><Button variant="primary" type="submit">Back</Button></Link>
+                <Link to={"/pharmacist/help"}><Button variant="primary" type="submit">Help</Button></Link>
                 </div>
             </Container>
 
