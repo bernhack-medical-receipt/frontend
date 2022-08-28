@@ -22,6 +22,9 @@ export const PharmacistScanner = (props) => {
                         }
                     }}
                     style={{ width: '100%' }}
+                    constraints={{
+                        facingMode: 'environment'
+                    }}
                 />
                 <div>
                 <Link to={"/pharmacist/menu"}><Button variant="primary" type="submit">Back</Button></Link>
