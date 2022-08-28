@@ -27,7 +27,7 @@ export const PharmacistScanner = (props) => {
                     }}
                 />
                 <div>
-                <Link to={"/pharmacist/menu"}><Button variant="primary" type="submit">Back</Button></Link>
+                <Link to={"/pharmacist/scanner"}><Button variant="primary" type="submit">Back</Button></Link>
                 </div>
             </Container>
 
