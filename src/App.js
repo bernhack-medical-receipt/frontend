@@ -35,6 +35,7 @@ import {PharmacistPatientReceiptInfo} from './components/pages/pharmacist/Pharma
 import {Col, Container, Row} from "react-bootstrap";
 import {Header} from "./components/Header";
 import {Footer} from "./components/Footer";
+import {PharmacistScanner} from "./components/pages/pharmacist/PharmacistScanner";
 
 
 //the path of the route is camel_case (everything after the name of the enity)
@@ -72,9 +73,10 @@ const App = () => {
                             </Route>
                             <Route path="pharmacist" element={<PharmacistPage/>}>
                                 <Route path="menu" element={<PharmacistMenu/>}/>
+                                <Route path="scanner" element={<PharmacistScanner/>}/>
                                 <Route path="help" element={<PharmacistHelp/>}/>
-                                <Route path="patient_profile" element={<PharmacistPatientProfile/>}/>
-                                <Route path="patient_receipt_info" element={<PharmacistPatientReceiptInfo/>}/>
+                                <Route path="patient_profile/:id/" element={<PharmacistPatientProfile/>}/>
+                                <Route path="patient_receipt_info/:user_id/:id/" element={<PharmacistPatientReceiptInfo/>}/>
                             </Route>
                         </Route>
 

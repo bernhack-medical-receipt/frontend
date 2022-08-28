@@ -1,41 +1,51 @@
-import { Link } from "react-router-dom";
-import { Button, Container, ListGroup} from "react-bootstrap";
-import {useState} from "react"
+import {Link, useParams} from "react-router-dom";
+import {Button, Container, ListGroup} from "react-bootstrap";
+import {useEffect, useState} from "react"
+import axios from "axios";
+import getCookie from '../../../utlis'
+
 export const PharmacistPatientProfile = () => {
     const [patientReceipts, setPatientReceipts] = useState([])
-    //TODO fetch the receipts for this user
+
+    const [receipts, setReceipts] = useState([])
+    const {id} = useParams();
+    console.log("id", id)
+
+    useEffect(() => {
+        const headers = {Authorization: `Token ${getCookie("token")}`}
+
+        axios.get(`https://med-api.mustafin.dev/api/v1/receipt/by_user/${id}`, {headers})
+            .then(response => {
+                console.log(response)
+                setReceipts(response.data)
+            })
+            .catch(error => {
+                console.error('Login error handle submit', error);
+            });
+
+    }, [])
+
     return (
         <>
             <Link to={"/pharmacist/menu"}><Button variant="primary" type="submit">Back</Button></Link>
             <Container>
-                <h2>Name</h2>
-                <Container>
+                <h2>Patient: {receipts[0]?.user?.first_name} {receipts[0]?.user?.last_name}</h2>
+                <div>
                     <h3>Active receipts</h3>
-                    <ListGroup >
-                    <Link to={"/pharmacist/patient_receipt_info"}>
-                                <ListGroup.Item >HARDCORE EXAMPLE</ListGroup.Item>
-                    </Link>
-                        {patientReceipts.map((patientReceipts) => (
-                            <Link to={"/pharmacist/patient_receipt_info"}>
-                                <ListGroup.Item >Cras justo odio</ListGroup.Item>
-                            </Link>
-                        ))}
-                    </ListGroup>
-                </Container>
+                    <ListGroup>
+                        {
+                            receipts.map((receipt) => (
+                                <Link to={`/pharmacist/patient_receipt_info/${receipt.user.id}/${receipt.id}`}>
+                                    <ListGroup.Item>
 
-                <Container>
-                    <h3>Symptoms</h3>
-                    <div>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore magna
-                        aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                        ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                        Duis aute irure dolor in reprehenderit in voluptate velit
-                        esse cillum dolore eu fugiat nulla pariatur. Excepteur
-                        sint occaecat cupidatat non proident, sunt in culpa qui
-                        officia deserunt mollit anim id est laborum.
-                    </div>
-                </Container>
+                                        {receipt.disease}
+
+                                    </ListGroup.Item>
+                                </Link>
+                            ))
+                        }
+                    </ListGroup>
+                </div>
             </Container>
         </>
     );
