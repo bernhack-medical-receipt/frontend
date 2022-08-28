@@ -1,11 +1,34 @@
 import { Container, ListGroup, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios  from "axios";
 
 
 export const PatientReceipts = () => {
 
     const [receipts, setReceipts] = useState([])
+
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+      }
+
+    useEffect(() => {
+       
+        const headers = {Authorization: `Token ${getCookie("token")}`}
+            axios.get('https://med-api.mustafin.dev/api/v1/receipt/', {headers})
+            .then(response => {   
+            
+              
+                setReceipts(response.data.results)  
+                
+            } )
+            .catch(error => {
+                console.error('Login error handle submit', error);
+            });
+    }, [])
+    
 
     //TODO fetch receipts
 
@@ -17,14 +40,19 @@ export const PatientReceipts = () => {
                 <img alt="..." />
                 <div>
                     <ListGroup >
-                    <Link to={"/patient/receipt_info"}>
-                                <ListGroup.Item >HARDCORE EXAMPLE</ListGroup.Item>
+
+                        {
+                        receipts.map((receipt) => (
+                            <Link to={`/patient/receipt_info/${receipt.id}`}>
+                                <ListGroup.Item >
+                                 
+                                     {receipt.disease}
+                                    
+                            
+                                    </ListGroup.Item>
                             </Link>
-                        {receipts.map((receipt) => (
-                            <Link to={"/patient/receipt_info"}>
-                                <ListGroup.Item >Cras justo odio</ListGroup.Item>
-                            </Link>
-                        ))}
+                        ))
+                        }
                     </ListGroup>
                 </div>
             </Container>

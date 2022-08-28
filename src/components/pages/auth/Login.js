@@ -26,6 +26,10 @@ export const Login = () => {
 
     const checkAuth = async () => {
         //doesn't redirect when cookie is set
+        if (getCookie("token") === null || getCookie("token")===undefined)
+        {
+            return;
+        }
         const headers = {Authorization: `Token ${getCookie("token")}`}
         axios.get('https://med-api.mustafin.dev/api/v1/users/me/', {headers})
         .then(response => {   
