@@ -1,39 +1,49 @@
-import { Container, Button, Table, Row } from "react-bootstrap";
+import { Container, Button, ListGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
-
+import { useState, useEffect } from "react";
+import axios from "axios";
 export const PatientHistory = () => {
+    const [receipts, setReceipts] = useState([])
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+      }
+
+    useEffect(() => {
+       
+        const headers = {Authorization: `Token ${getCookie("token")}`}
+            axios.get('https://med-api.mustafin.dev/api/v1/receipt/', {headers})
+            .then(response => {   
+            
+              
+                setReceipts(response.data.results[0].drugs)  
+                console.log(response.data.results[0].drugs)
+                
+            } )
+            .catch(error => {
+                console.error('Login error handle submit', error);
+            });
+    }, [])
     return (
         <>
             <Link to={"/patient/menu"}><Button variant="primary" type="submit">Back</Button></Link>
             <Container>
-                <Row><h2>History</h2></Row>
-                <Row>
-                    <Table striped>
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Date issued</th>
-                            <th>Disease name</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td colSpan={2}>Larry the Bird</td>
-                        </tr>
-                        </tbody>
-                    </Table>
-                </Row>
+                <ListGroup >
+
+                    {
+                        receipts.map((receipt) => (
+                            <Link to={`/patient/receipt_info/${receipt.id}`}>
+                                <ListGroup.Item >
+
+                                    {receipt.title}
+
+
+                                </ListGroup.Item>
+                            </Link>
+                        ))
+                    }
+                </ListGroup>
             </Container>
 
         </>

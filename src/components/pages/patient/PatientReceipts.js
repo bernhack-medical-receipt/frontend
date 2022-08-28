@@ -21,7 +21,8 @@ export const PatientReceipts = () => {
             .then(response => {   
             
               
-                setReceipts(response.data.results)  
+                setReceipts(response.data.results[0].drugs)  
+                console.log(response.data.results[0].drugs)
                 
             } )
             .catch(error => {
@@ -37,7 +38,7 @@ export const PatientReceipts = () => {
             <Link to={"/patient/menu"}><Button variant="primary" type="submit">Back</Button></Link>
             <Container>
                 <h3>Your medicaments</h3>
-                <img alt="..." />
+                <img alt="..." src="../../../public/not_yet_handed_Drugs.png" />
                 <div>
                     <ListGroup >
 
@@ -46,7 +47,7 @@ export const PatientReceipts = () => {
                             <Link to={`/patient/receipt_info/${receipt.id}`}>
                                 <ListGroup.Item >
                                  
-                                     {receipt.disease}
+                                     {receipt.title}
                                     
                             
                                     </ListGroup.Item>

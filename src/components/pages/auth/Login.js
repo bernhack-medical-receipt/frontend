@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from "react"
 import { Link, Navigate } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
+import {Button, Container} from 'react-bootstrap'
 import axios from "axios";
 
 
@@ -94,13 +95,13 @@ export const Login = () => {
    if (role === '')
     return (
         <>
-            
+            <Container>
             <form onSubmit={handleSubmit}>
                 <input type="email" onChange={onChangeEmail}/>
                 <input type="text" onChange={onChangePassword}/>
                 <button onClick={navigation}> 
                     
-                      
+                      Login
                 </button>
     
            
@@ -108,7 +109,7 @@ export const Login = () => {
 
     
             <Link to="/registration">registration</Link>
-
+            </Container>
         </>
     );
     else if (role === "USER") {
