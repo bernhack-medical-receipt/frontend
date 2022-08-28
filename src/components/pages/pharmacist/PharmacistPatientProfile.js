@@ -35,7 +35,7 @@ export const PharmacistPatientProfile = () => {
                     <ListGroup>
                         {
                             receipts.map((receipt) => (
-                                <Link to={`/pharmacist/patient_receipt_info/${receipt.id}`}>
+                                <Link to={`/pharmacist/patient_receipt_info/${receipt.user.id}/${receipt.id}`}>
                                     <ListGroup.Item>
 
                                         {receipt.disease}
