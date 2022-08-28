@@ -57,8 +57,15 @@ export const Login = () => {
         const headers = {'Content-Type': 'application/json'}
         axios.post('https://med-api.mustafin.dev/api-token-auth/', user, {headers})
             .then(response => {
-                console.log(response.data.token)
                 setCookie("token", `${response.data.token}`, 1)
+                checkAuth()
+                if (role === "USER") {
+                    window.location = "/patient/menu";
+                } if (role === "PHAR") {
+                    window.location = "/pharmacist/menu";
+                } if (role === "DOC") {
+                    window.location = "/doctor/menu";
+                } 
             } )
             .catch(error => {
                 console.error('Login error handle submit', error);
@@ -69,6 +76,17 @@ export const Login = () => {
         checkAuth()
     }, [])
 
+  const navigation = () => {
+    console.log(role)
+    if (role === "USER") {
+        window.location = "/patient/menu";
+    } if (role === "PHAR") {
+        window.location = "/pharmacist/menu";
+    } if (role === "DOC") {
+        window.location = "/doctor/menu";
+    } 
+  }
+
    if (role === '')
     return (
         <>
@@ -76,8 +94,9 @@ export const Login = () => {
             <form onSubmit={handleSubmit}>
                 <input type="email" onChange={onChangeEmail}/>
                 <input type="text" onChange={onChangePassword}/>
-                <button> 
-                       <Link to="/">registration</Link>
+                <button onClick={navigation}> 
+                    
+                      
                 </button>
     
            
