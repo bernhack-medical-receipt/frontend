@@ -1,9 +1,13 @@
 import { useRef, useState, useEffect } from "react"
 import { Link, Navigate } from "react-router-dom";
-import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 import { Button, Container, Form} from 'react-bootstrap'
 import axios from "axios";
-
+import { setCookie } from "../../utilities/cookies";
+import { getCookie } from "../../utilities/cookies";
+//useEffect ->
+                //checkAuth => should check the token and redirect 
+//handleSubmit ->
 
 export const Login = () => {
 
@@ -12,28 +16,28 @@ export const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    function getCookie(name) {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(';').shift();
-    }
+    
 
-    function setCookie(cname, cvalue, exdays) {
-        const d = new Date();
-        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-        const expires = "expires=" + d.toUTCString();
-        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-    }
-
+    let navigate = useNavigate();
     const checkAuth = async () => {
-        //doesn't redirect when cookie is set
         if (getCookie("token") === null || getCookie("token") === undefined) {
             return;
         }
         const headers = { Authorization: `Token ${getCookie("token")}` }
         axios.get('https://med-api.mustafin.dev/api/v1/users/me/', { headers })
             .then(response => {
-                setRole(`${response.data.role}`)
+                // setRole(`${response.data.role}`)
+               
+                if (response.data.role === "USER") {
+                    // window.location = "/patient/menu";
+                    navigate('/patient/menu')
+                } if (response.data.role === "PHAR") {
+                    navigate('/pharmacist/menu')
+                } if (response.data.role === "DOC") {
+                    navigate('/doctor/menu')
+                } if (response.data.role === undefined) {
+                    navigate('/auth/login')
+                }
 
             })
             .catch(error => {
@@ -50,10 +54,9 @@ export const Login = () => {
     }
 
 
-
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // https://med-api.mustafin.dev/api-token-auth/
         const user = {
             username: email,
             password: password,
@@ -63,33 +66,23 @@ export const Login = () => {
             .then(response => {
                 setCookie("token", `${response.data.token}`, 1)
                 checkAuth()
-                if (role === "USER") {
-                    window.location = "/patient/menu";
-                } if (role === "PHAR") {
-                    window.location = "/pharmacist/menu";
-                } if (role === "DOC") {
-                    window.location = "/doctor/menu";
-                }
+             
+               
+                
             })
             .catch(error => {
                 console.error('Login error handle submit', error);
             });
     }
 
+
     useEffect(() => {
         checkAuth()
     }, [])
 
-    const navigation = () => {
-        console.log(role)
-        if (role === "USER") {
-            window.location = "/patient/menu";
-        } if (role === "PHAR") {
-            window.location = "/pharmacist/menu";
-        } if (role === "DOC") {
-            window.location = "/doctor/menu";
-        }
-    }
+    
+    
+    
 
     if (role === '')
         return (
@@ -110,7 +103,7 @@ export const Login = () => {
                         </Form.Group>
 
                         
-                        <Button onClick={navigation} variant="primary" type="submit">
+                        <Button variant="primary" type="submit">
                             Login
                         </Button>
 
@@ -120,11 +113,11 @@ export const Login = () => {
                 </Container>
             </>
         );
-    else if (role === "USER") {
-        return <Navigate replace to="/patient/menu" />;
-    } if (role === "PHAR") {
-        return <Navigate replace to="/pharmacist/menu" />;
-    } if (role === "DOC") {
-        return <Navigate replace to="/doctor/menu" />;
-    }
+    // else if (role === "USER") {
+    //     return <Navigate replace to="/patient/menu" />;
+    // } if (role === "PHAR") {
+    //     return <Navigate replace to="/pharmacist/menu" />;
+    // } if (role === "DOC") {
+    //     return <Navigate replace to="/doctor/menu" />;
+    // }
 }
