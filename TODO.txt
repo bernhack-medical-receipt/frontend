@@ -1,0 +1,22 @@
+Actual problem:
+Role is defined only by the http-request that returns token with a Role
+Token is stored in a cookies
+
+Outcomes:
+User can change the URL and go to any page but the content is verified by a token
+
+Solution:
+Use the "context", that is defined once globally and is used for verification in any component
+"context" and "cookie" is set after login(src/components/auth/Logins.js) or registration(src/components/auth/Registration.js)
+
+Questions to ask:
+If the user left a page, the "context" is lost. Should the "cookie" store the "context"?
+-If yes, how the provider of "context" should get the data from "cookie"?
+
+Done:
+-created new folder for a context(src/components/context) + created new file(src/components/context/AuthContext.js)
+-cookie functions are taken away in a (src/components/utilities)
+
+
+
+

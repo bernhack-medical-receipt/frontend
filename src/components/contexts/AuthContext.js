@@ -3,27 +3,8 @@ import { Context, useReducer } from "react";
 
 export const AuthContext = createContext();
 
-export const authReducer = (state, action) => {
-    switch(action.type) {
-        case 'Login':
-            return {user: action.payload }
-        case 'Logout':
-            return {user: null}
-        default: 
-        return state
-    }
-}
+//TODO 
+//in index js, make the wrapper that passes the roles-context to children components 
 
-export const AuthContextProvider = ({children}) => {
-    const [state, dispatch] = useReducer(authReducer, {
-        user: null
-    }) 
-console.log('Authcontext', state);
-
-return (
-    <AuthContext.Provider value ={{...state, dispatch}} >
-        {children}
-    </AuthContext.Provider>
-)
-}
-// <AuthContext.Providers> </AuthContext.Providers> 
+//1)on which level the auth context should be? (the upper one? like index.js)
+//2)s
