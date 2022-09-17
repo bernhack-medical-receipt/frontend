@@ -42,7 +42,7 @@ import {Footer} from "./components/Footer";
 
 const App = () => {
 
-    const [success, setSuccess] = useState(false);
+
 
     return (
         <Container>
